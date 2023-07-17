@@ -42,9 +42,11 @@ def train(model, data_in, loss, optim, max_epochs, model_dir, test_interval=1 , 
         print(f"epoch {epoch + 1}/{max_epochs}")
         model.train()
         train_epoch_loss = 0
-        train_step = 0
+        train_step = 1
         epoch_metric_train = 0
         for batch_data in train_loader:
+            # print('batch_data: ', batch_data)
+         
             
             train_step += 1
 
@@ -71,6 +73,8 @@ def train(model, data_in, loss, optim, max_epochs, model_dir, test_interval=1 , 
             print(f'Train_dice: {train_metric:.4f}')
 
         print('-'*20)
+        print('train_step: ', train_step)
+
         
         train_epoch_loss /= train_step
         print(f'Epoch_loss: {train_epoch_loss:.4f}')
@@ -90,9 +94,10 @@ def train(model, data_in, loss, optim, max_epochs, model_dir, test_interval=1 , 
                 test_epoch_loss = 0
                 test_metric = 0
                 epoch_metric_test = 0
-                test_step = 0
+                test_step = 1
 
                 for test_data in test_loader:
+                    # print('test_data: ', test_data)
 
                     test_step += 1
 
@@ -112,11 +117,14 @@ def train(model, data_in, loss, optim, max_epochs, model_dir, test_interval=1 , 
                 test_epoch_loss /= test_step
                 print(f'test_loss_epoch: {test_epoch_loss:.4f}')
                 save_loss_test.append(test_epoch_loss)
+                print('save_loss_test: ', save_loss_test)
+             
                 np.save(os.path.join(model_dir, 'loss_test.npy'), save_loss_test)
 
                 epoch_metric_test /= test_step
                 print(f'test_dice_epoch: {epoch_metric_test:.4f}')
                 save_metric_test.append(epoch_metric_test)
+                print('save_metric_test: ', save_metric_test)
                 np.save(os.path.join(model_dir, 'metric_test.npy'), save_metric_test)
 
                 if epoch_metric_test > best_metric:
